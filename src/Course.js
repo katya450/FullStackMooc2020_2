@@ -2,7 +2,10 @@ import React from "react";
 import Part from "./Part.js";
 
 const Course = ({ course }) => {
-  const Header = () => <h1>{course.name}</h1>;
+
+  const Header = () => {
+    return <h2>{course.name}</h2>; //ASK THIS WTF
+  };
 
   const Content = () => {
     return (
@@ -17,14 +20,18 @@ const Course = ({ course }) => {
   const Total = () => {
     return (
       <p>
-        Total of {course.parts.reduce((acc, {exercises}) => acc + exercises, 0)} exercises
+        <b>
+          Total of{" "}
+          {course.parts.reduce((acc, { exercises }) => acc + exercises, 0)}{" "}
+          exercises
+        </b>
       </p>
     );
   };
 
   return (
     <div>
-      <Header course={course} />
+      <Header />
       <Content />
       <Total />
     </div>
