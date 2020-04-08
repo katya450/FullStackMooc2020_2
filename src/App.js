@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Person = ({person}) => {
+  return <li>{person.name}</li>;
 }
 
-export default App;
+const App = () => {
+
+  const addName = (event) => {
+    event.preventDefault();
+    const newPerson = {
+      name: newName
+    }
+    setPersons(persons.concat(newPerson));
+    setNewName('');
+  }
+
+  const handleNewNameChange = (event) => {
+    console.log("name: ", event.target.value);
+    setNewName(event.target.value)
+  }
+
+  const [ persons, setPersons] = useState([
+    { name: 'Arto Hellas' }
+  ])
+
+  const [ newName, setNewName ] = useState('')
+
+  console.log(persons);
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addName}>
+        <div>
+          name: <input value={newName} onChange={handleNewNameChange}/>
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      <div>
+        <ul>{persons.map((person) => <Person person={person} key={person.name} />)}</ul>
+      </div>
+    </div>
+  )
+
+}
+
+export default App
