@@ -1,18 +1,25 @@
 import React, { useState } from 'react'
 
 const Person = ({person}) => {
-  return <li>{person.name}</li>;
+return <li>{person.name} {person.number}</li>;
 }
 
 const App = () => {
 
-  const addName = (event) => {
+  const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
-    setPersons(persons.concat(newPerson));
-    setNewName('');
+    const personsNames = persons.map(person => person.name)
+    if (personsNames.includes(newPerson.name)){
+      alert(`${newPerson.name} is already in phonebook you blind dumbass`);
+    } else {
+      setPersons(persons.concat(newPerson));
+    }
+    setNewName('')
+    setNewNumber('')
   }
 
   const handleNewNameChange = (event) => {
@@ -20,20 +27,31 @@ const App = () => {
     setNewName(event.target.value)
   }
 
+  const handleNewNumberChange = (event) => {
+    console.log("number: ", event.target.value);
+    setNewNumber(event.target.value)
+  }
+
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: 1234 }
   ])
 
   const [ newName, setNewName ] = useState('')
-
-  console.log(persons);
+  const [ newNumber, setNewNumber ] = useState('')
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName}>
+      <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handleNewNameChange}/>
+          <label>Name:
+            <input value={newName} onChange={handleNewNameChange}/>
+          </label>
+          </div>
+          <div>
+          <label>Number:
+            <input value={newNumber} onChange={handleNewNumberChange}/>
+          </label>
         </div>
         <div>
           <button type="submit">add</button>
