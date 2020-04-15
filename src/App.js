@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-
-const Person = ({person}) => {
-return <li>{person.name} {person.number}</li>;
-}
+import React, { useState } from "react";
+import PersonForm from "./PersonForm";
+import FilterPersons from "./FilterPersons";
+import Persons from "./Persons";
 
 const App = () => {
 
@@ -10,60 +9,57 @@ const App = () => {
     event.preventDefault();
     const newPerson = {
       name: newName,
-      number: newNumber
-    }
-    const personsNames = persons.map(person => person.name)
-    if (personsNames.includes(newPerson.name)){
+      number: newNumber,
+    };
+    const personsNames = persons.map((person) => person.name);
+    if (personsNames.includes(newPerson.name)) {
       alert(`${newPerson.name} is already in phonebook you blind dumbass`);
     } else {
       setPersons(persons.concat(newPerson));
     }
-    setNewName('')
-    setNewNumber('')
-  }
+    setNewName("");
+    setNewNumber("");
+  };
 
   const handleNewNameChange = (event) => {
-    console.log("name: ", event.target.value);
-    setNewName(event.target.value)
-  }
+    setNewName(event.target.value);
+  };
 
   const handleNewNumberChange = (event) => {
-    console.log("number: ", event.target.value);
-    setNewNumber(event.target.value)
-  }
+    setNewNumber(event.target.value);
+  };
 
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: 1234 }
-  ])
+  const handleFilter = (event) => {
+    console.log("filter: ", event.target.value);
+    return null;
+  };
 
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: "040-123456" },
+    { name: "Ada Lovelace", number: "39-44-5323523" },
+    { name: "Dan Abramov", number: "12-43-234345" },
+    { name: "Mary Poppendieck", number: "39-23-6423122" },
+  ]);
+
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          <label>Name:
-            <input value={newName} onChange={handleNewNameChange}/>
-          </label>
-          </div>
-          <div>
-          <label>Number:
-            <input value={newNumber} onChange={handleNewNumberChange}/>
-          </label>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <FilterPersons handleFilter={handleFilter} />
+      <h2>Add new person</h2>
+      <PersonForm
+        addPerson={addPerson}
+        handleNewNameChange={handleNewNameChange}
+        handleNewNumberChange={handleNewNumberChange}
+        newNumber={newNumber}
+        newName={newName}
+      />
       <h2>Numbers</h2>
-      <div>
-        <ul>{persons.map((person) => <Person person={person} key={person.name} />)}</ul>
-      </div>
+      <Persons persons={persons}/>
     </div>
-  )
+  );
+};
 
-}
-
-export default App
+export default App;
