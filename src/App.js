@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PersonForm from "./PersonForm";
 import FilterPersons from "./FilterPersons";
 import Persons from "./Persons";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
   const addPerson = (event) => {
@@ -15,8 +15,7 @@ const App = () => {
     if (personsNames.includes(newPerson.name)) {
       alert(`${newPerson.name} is already in phonebook you blind dumbass`);
     } else {
-      axios
-        .post("http://localhost:3001/persons", newPerson)
+      personService.create(newPerson)
         .then((response) => {
           setPersons(persons.concat(response.data));
         })
@@ -37,7 +36,7 @@ const App = () => {
   const [filterValue, setFilterValue] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    personService.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
