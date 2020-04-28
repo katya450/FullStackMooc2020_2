@@ -21,29 +21,14 @@
       "id": 4
     },
     {
-      "name": "Q",
-      "number": "7",
-      "id": 5
-    },
-    {
-      "name": "qq",
-      "number": "5",
-      "id": 6
-    },
-    {
-      "name": "ABC",
-      "number": "123",
-      "id": 7
-    },
-    {
-      "name": "JEE",
-      "number": "100",
-      "id": 8
-    },
-    {
       "name": "Salamakoira",
       "number": "777",
       "id": 9
+    },
+    {
+      "name": "KISSA",
+      "number": "6-6-6",
+      "id": 10
     }
   ]
 }

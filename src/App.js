@@ -15,10 +15,9 @@ const App = () => {
     if (personsNames.includes(newPerson.name)) {
       alert(`${newPerson.name} is already in phonebook you blind dumbass`);
     } else {
-      personService.create(newPerson)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-        })
+      personService.create(newPerson).then((response) => {
+        setPersons(persons.concat(response.data));
+      });
     }
     setNewName("");
     setNewNumber("");
@@ -47,8 +46,19 @@ const App = () => {
 
   const filteredPersons = () => {
     return persons.filter((person) =>
-        person.name.toLowerCase().includes(filterValue.toLowerCase())
-      )
+      person.name.toLowerCase().includes(filterValue.toLowerCase())
+    );
+  };
+
+  const deletePerson = (person) => {
+    if (window.confirm(`Really wanna delete ${person.name} ?`)) {
+      personService
+        .remove(person.id)
+        .then(personService.getAll)
+        .then((response) => {
+          setPersons(response.data);
+        });
+    }
   };
 
   const [newName, setNewName] = useState("");
@@ -67,7 +77,7 @@ const App = () => {
         newName={newName}
       />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons(persons)} />
+      <Persons persons={filteredPersons(persons)} deletePerson={deletePerson} />
     </div>
   );
 };
