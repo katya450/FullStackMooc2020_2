@@ -3,10 +3,8 @@ import PersonForm from "./PersonForm";
 import FilterPersons from "./FilterPersons";
 import Persons from "./Persons";
 import axios from "axios";
-//import db from "//db.json";
 
 const App = () => {
-
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
@@ -17,7 +15,11 @@ const App = () => {
     if (personsNames.includes(newPerson.name)) {
       alert(`${newPerson.name} is already in phonebook you blind dumbass`);
     } else {
-      setPersons(persons.concat(newPerson));
+      axios
+        .post("http://localhost:3001/persons", newPerson)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+        })
     }
     setNewName("");
     setNewNumber("");
@@ -31,21 +33,24 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const handleFilter = (event) => {
-    console.log("filter: ", event.target.value);
-    return null;
-  };
-
   const [persons, setPersons] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
+    axios.get("http://localhost:3001/persons").then((response) => {
+      setPersons(response.data);
+    });
+  }, []);
+
+  const handleFilter = (event) => {
+    setFilterValue(event.target.value);
+  };
+
+  const filteredPersons = () => {
+    return persons.filter((person) =>
+        person.name.toLowerCase().includes(filterValue.toLowerCase())
+      )
+  };
 
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -63,7 +68,7 @@ const App = () => {
         newName={newName}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons}/>
+      <Persons persons={filteredPersons(persons)} />
     </div>
   );
 };

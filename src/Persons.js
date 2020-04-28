@@ -1,8 +1,7 @@
 import React from "react";
 import Person from "./Person";
 
-const Persons = ({persons}) => {
-
+const Persons = ({ persons, filter }) => {
   return (
     <div>
       <ul>

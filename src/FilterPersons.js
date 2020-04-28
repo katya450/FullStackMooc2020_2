@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const FilterPersons = ({handleFilter}) => {
+const FilterPersons = ({nameFilter, handleFilter}) => {
 
   return (
     <div>
       <label>
         Filter names with:
-        <input value="" onChange={handleFilter} />
+        <input onChange={handleFilter} id="filter"/>
       </label>
     </div>
   );
