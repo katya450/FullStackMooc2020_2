@@ -1,44 +1,39 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
+      "name": "Lisko",
+      "number": "666",
+      "id": 11
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Salamakoira",
-      "number": "777",
-      "id": 9
-    },
-    {
-      "name": "KISSA",
-      "number": "6-6-6",
-      "id": 10
-    },
-    {
-      "name": "qweqwee",
-      "number": "123",
+      "name": "Kissa",
+      "number": "18",
       "id": 12
     },
     {
-      "name": "qwewqeqwe",
-      "number": "123",
+      "name": "KOIR",
+      "number": "18222",
       "id": 13
+    },
+    {
+      "name": "Pingviini",
+      "number": "121212",
+      "id": 14
+    },
+    {
+      "name": "Lintu",
+      "number": "999999",
+      "id": 15
+    },
+    {
+      "name": "Lehm",
+      "number": "000",
+      "id": 16
+    },
+    {
+      "name": "apina",
+      "number": "100100",
+      "id": 20
     }
   ]
 }

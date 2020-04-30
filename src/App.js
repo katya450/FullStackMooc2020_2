@@ -3,40 +3,62 @@ import PersonForm from "./PersonForm";
 import FilterPersons from "./FilterPersons";
 import Persons from "./Persons";
 import personService from "./services/persons";
-import './index.css'
+import "./index.css";
 
 const Notification = ({ message }) => {
   if (message === null) {
-    return null
+    return null;
   }
-  return (
-    <div className="error">
-      {message}
-    </div>
-  )
-}
+  return <div className="notification">{message}</div>;
+};
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterValue, setFilterValue] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null);
 
-  const addPerson = (event) => {
+  const updatePerson = (id, newPerson) => {
+    personService
+      .update(id, newPerson)
+      .then(
+        personService.getAll().then((response) => setPersons(response.data))
+      )
+      .then(() => {
+        setNotification(`Updated ${newPerson.name}`);
+        setTimeout(() => setNotification(null), 1000);
+      });
+  };
+
+  const addPerson = (newPerson) => {
+    personService.create(newPerson).then((response) => {
+      setNotification(`Added ${newName}`);
+      setTimeout(() => setNotification(null), 1000);
+      setPersons(persons.concat(response.data));
+    });
+  };
+
+  const tryToAddPerson = (event) => {
     event.preventDefault();
     const newPerson = {
       name: newName,
       number: newNumber,
     };
-    const personsNames = persons.map((person) => person.name);
-    if (personsNames.includes(newPerson.name)) {
-      alert(`${newPerson.name} is already in phonebook you blind dumbass`);
+
+    const checkNameGetId = (person) => {
+      const idToCheck = person.id;
+      if (person.name === newPerson.name) {
+        return idToCheck;
+      } else {
+        return null;
+      }
+    };
+
+    const maybeId = persons.reduce((acc, person) => (acc === null ? checkNameGetId(person) : acc), null);
+
+    if (maybeId === null) {
+      addPerson(newPerson);
     } else {
-      personService.create(newPerson)
-      .then((response) => {
-        setErrorMessage(`Added ${newName}`)
-        setTimeout(() => setErrorMessage(null), 1000)
-        setPersons(persons.concat(response.data));
-      });
+      updatePerson(maybeId, newPerson);
     }
     setNewName("");
     setNewNumber("");
@@ -72,8 +94,8 @@ const App = () => {
         .remove(person.id)
         .then(personService.getAll)
         .then((response) => {
-          setErrorMessage(`Removed ${person.name}`)
-          setTimeout(() => setErrorMessage(null), 1000)
+          setNotification(`Removed ${person.name}`);
+          setTimeout(() => setNotification(null), 1000);
           setPersons(response.data);
         });
     }
@@ -85,11 +107,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={notification} />
       <FilterPersons handleFilter={handleFilter} />
       <h2>Add new person</h2>
       <PersonForm
-        addPerson={addPerson}
+        addPerson={tryToAddPerson}
         handleNewNameChange={handleNewNameChange}
         handleNewNumberChange={handleNewNumberChange}
         newNumber={newNumber}
