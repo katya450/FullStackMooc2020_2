@@ -24,9 +24,13 @@ const App = () => {
         personService.getAll().then((response) => setPersons(response.data))
       )
       .then(() => {
-        setNotification(`Updated ${newPerson.name}`);
+          setNotification(`Updated ${newPerson.name}`);
+          setTimeout(() => setNotification(null), 1000);
+        })
+      .catch(error => {
+        setNotification(`Cannot update removed person: ${newPerson.name}`);
         setTimeout(() => setNotification(null), 1000);
-      });
+      })
   };
 
   const addPerson = (newPerson) => {
