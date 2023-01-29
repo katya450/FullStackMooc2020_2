@@ -10,8 +10,8 @@ const Course = ({ course }) => {
   const Content = () => {
     return (
       <div>
-        {course.parts.map((part, i) => (
-          <Part key={i} part={part}></Part>
+        {course.parts.map((part) => (
+          <Part key={part.id} part={part}></Part>
         ))}
       </div>
     );
